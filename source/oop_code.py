@@ -17,8 +17,8 @@ class Loader:
     Classe para ler o arquivo de texto e carregá-lo em uma lista.
     """
 
-    def __init__(self, file_name):
-        self._file_name = file_name
+    def __init__(self, source_file):
+        self._source_file = source_file
         self._lines = None
 
     @property
@@ -26,7 +26,7 @@ class Loader:
         return self._lines
 
     def execute(self):
-        with open(self._file_name, encoding="utf-8", mode="r") as file:
+        with open(self._source_file, encoding="utf-8", mode="r") as file:
             try:
                 self._lines = file.readlines()
             finally:

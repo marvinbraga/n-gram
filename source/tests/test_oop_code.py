@@ -1,3 +1,10 @@
+# coding=utf-8
+
+"""
+R-GRAM Challenger - Test Software Engineer.
+Marcus Vinicius Braga, 2022.
+Todos os direitos reservados.
+"""
 import os.path
 
 import pytest
@@ -7,8 +14,8 @@ from source.oop_code import Serializer, Loader, Fitter
 
 @pytest.fixture
 def source():
-    file_name = os.path.normpath("../texto.txt")
-    return Serializer(loader=Loader(file_name=file_name).execute()).process()
+    source_file = os.path.normpath("../texto.txt")
+    return Serializer(loader=Loader(source_file=source_file).execute()).process()
 
 
 @pytest.mark.initialization
