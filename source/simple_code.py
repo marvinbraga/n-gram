@@ -13,8 +13,10 @@ de bibliotecas "prontas" ou "externas", que:
 import sys
 
 from utils.argv import ParserArgv
+from utils.profile import profile
 
 
+@profile
 def execute(source_file, n_gram):
     if not source_file or not n_gram:
         return
