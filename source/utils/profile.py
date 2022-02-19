@@ -25,10 +25,10 @@ def profile(fnc):
             retval = fnc(*args, **kwargs)
         finally:
             pr.disable()
-        s = io.StringIO()
-        ps = pstats.Stats(pr, stream=s).sort_stats("cumulative")
-        ps.print_stats()
-        print(s.getvalue())
+            s = io.StringIO()
+            ps = pstats.Stats(pr, stream=s).sort_stats("cumulative")
+            ps.print_stats()
+            print(s.getvalue())
         return retval
 
     return inner
