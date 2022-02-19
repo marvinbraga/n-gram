@@ -51,9 +51,10 @@ def execute(source_file, n_gram):
     sorted_output = dict()
     for item in sorted_list:
         sorted_output[item] = output.get(item)
-    print(sorted_output)
+
+    return sorted_output
 
 
 if __name__ == '__main__':
     info = ParserArgv(sys.argv[1:]).parse()
-    execute(info.get("source_file"), info.get("n_gram"))
+    print(execute(info.get("source_file"), info.get("n_gram")))
