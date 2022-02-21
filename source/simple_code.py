@@ -21,38 +21,45 @@ def execute(source_file, n_gram):
     if not source_file or not n_gram:
         return
 
-    ngram = int(n_gram)
+    # Ler o conteúdo do arquivo.
     file = open(source_file, encoding="utf-8", mode="r")
     try:
         lines = file.readlines()
     finally:
         file.close()
 
-    result = []
+    # Ajusta o conteúdo do arquivo e carrega a lista de palavras.
+    words = []
     for line in lines:
-        data = line.split("\n")[:-1]
+        data = line.strip().split()
         if data:
-            for word in data[0].split():
-                result.append(word)
+            for word in data:
+                words.append(word.lower())
 
-    text, n, n_gram_result = "", 1, []
-    for i in result:
-        text += " " + i.lower()
-        n += 1
-        if n > ngram:
-            n_gram_result.append(text.strip())
-            text = "" if ngram == 1 else i.lower()
-            n = 1 if ngram == 1 else 2
+    # Motar a lista com o conjunto de palavras.
+    ngram, output = int(n_gram), []
+    ngram_range = len(words) - (ngram - 1)
+    for i in range(ngram_range):
+        output.append(words[i:i + ngram])
 
-    output = dict()
-    for item in n_gram_result:
-        output.update({item: output.get(item, 0) + 1})
-    sorted_list = sorted(output, key=output.get, reverse=True)
-    sorted_output = dict()
+    # Gerar ‘strings’ de resultado.
+    data = []
+    for reg in output:
+        data.append(" ".join(reg))
+    data = sorted(data)
+
+    # Contabiliza a contagem.
+    result = dict()
+    for item in data:
+        result.update({item: result.get(item, 0) + 1})
+    sorted_list = sorted(result, key=result.get, reverse=True)
+
+    # Montar o resultado.
+    sorted_result = dict()
     for item in sorted_list:
-        sorted_output[item] = output.get(item)
+        sorted_result[item] = result.get(item)
 
-    return sorted_output
+    return sorted_result
 
 
 if __name__ == '__main__':

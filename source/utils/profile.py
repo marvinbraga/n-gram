@@ -13,7 +13,7 @@ import pstats
 
 def profile(fnc):
     """
-    A deco tha uses cProfile to profile a function.
+    A decorator that uses cProfile to profile a function.
     :param fnc:
     :return:
     """
