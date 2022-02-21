@@ -20,7 +20,7 @@ def source():
 
 @pytest.mark.initialization
 def tests_load_source_file(source):
-    assert len(source.data) > 0
+    assert len(source.words) > 0
 
 
 @pytest.mark.calculate

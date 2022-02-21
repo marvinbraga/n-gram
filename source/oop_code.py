@@ -10,6 +10,10 @@ de bibliotecas "prontas" ou "externas", que:
 — leia um arquivo de texto e receba um parâmetro N > 0;
 — Gere uma saída do arquivo com as frequências ordenadas dos N-gramas.
 """
+import sys
+
+from utils.argv import ParserArgv
+from utils.profile import profile
 
 
 class Loader:
@@ -41,18 +45,16 @@ class Serializer:
 
     def __init__(self, loader):
         self._loader = loader
-        self._data = []
+        self._words = []
 
     @property
-    def data(self):
-        return self._data
+    def words(self):
+        return self._words
 
     def process(self):
-        for line in self._loader.lines:
-            data = line.split("\n")[:-1]
-            if data:
-                for word in data[0].split():
-                    self._data.append(word)
+        lines = [*map(lambda ln: ln.strip().split(), self._loader.lines)]
+        for line in lines:
+            self._words += [*map(lambda word: word.lower(), line)]
         return self
 
 
@@ -63,15 +65,32 @@ class Fitter:
 
     def __init__(self, n_gram, serializer):
         self._serializer = serializer
-        self._n_gram = n_gram
-        self._result = None
+        self._ngram = n_gram
+        self._result = dict()
 
     @property
     def result(self):
         return self._result
 
     def _prepare(self):
+        ngram, words = int(self._ngram), self._serializer.words
+        return sorted([" ".join(reg) for reg in [words[i:i + ngram] for i in range(len(words) - (ngram - 1))]])
+
+    @profile
+    def count(self):
+        data = self._prepare()
+        self._result = {w: c for w, c in sorted(
+            {item: data.count(item) for item in set(data)}.items(), key=lambda c: c[1], reverse=True)}
         return self
 
-    def count(self):
-        return self
+
+if __name__ == '__main__':
+    info = ParserArgv(sys.argv[1:]).parse()
+    print(Fitter(
+        info.get("n_gram"),
+        Serializer(
+            Loader(
+                info.get("source_file")
+            ).execute()
+        ).process()
+    ).count().result)
