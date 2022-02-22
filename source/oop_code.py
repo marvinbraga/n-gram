@@ -3,8 +3,12 @@
 Prova "Desenvolvedor Jovens Talentos"
 Desafio para Engenheiro de Software.
 Marcus Vinicius Braga, 2022.
+
+Refaça um dos programas anteriores, mas agora podendo usar qualquer biblioteca
+(provavelmente o que você faria em um ambiente profissional).
 """
 import sys
+from collections import Counter
 
 from utils.argv import ParserArgv
 from utils.profile import profile
@@ -37,8 +41,8 @@ class Serializer:
     Classe para ajustar o conteúdo do arquivo em uma lista de dados única.
     """
 
-    def __init__(self, loader):
-        self._loader = loader
+    def __init__(self, lines):
+        self._lines = lines
         self._words = []
 
     @property
@@ -46,7 +50,7 @@ class Serializer:
         return self._words
 
     def process(self):
-        lines = [*map(lambda ln: ln.strip().split(), self._loader.lines)]
+        lines = [*map(lambda ln: ln.strip().split(), self._lines)]
         for line in lines:
             self._words += [*map(lambda word: word.lower(), line)]
         return self
@@ -57,8 +61,8 @@ class Fitter:
     Classe para filtrar os dados conforme o N informado.
     """
 
-    def __init__(self, n_gram, serializer):
-        self._serializer = serializer
+    def __init__(self, n_gram, words):
+        self._words = words
         self._ngram = n_gram
         self._result = dict()
 
@@ -66,25 +70,26 @@ class Fitter:
     def result(self):
         return self._result
 
-    def _prepare(self):
-        ngram, words = int(self._ngram), self._serializer.words
-        return sorted([" ".join(reg) for reg in [words[i:i + ngram] for i in range(len(words) - (ngram - 1))]])
-
-    @profile
     def count(self):
-        data = self._prepare()
-        self._result = {w: c for w, c in sorted(
-            {item: data.count(item) for item in set(data)}.items(), key=lambda c: c[1], reverse=True)}
+        ngram, words = int(self._ngram), self._words
+        self._result = {i: v for i, v in sorted(
+            Counter(
+                [" ".join(reg) for reg in [words[i:i + ngram] for i in range(len(words) - (ngram - 1))]]
+            ).items(), key=lambda item: (-item[1], item[0])
+        )}
         return self
+
+
+@profile(repeat=1, number=1000)
+def exec_oop_code(info_env):
+    return Fitter(
+        n_gram=info_env.get("n_gram"),
+        words=Serializer(
+            lines=Loader(source_file=info_env.get("source_file")).execute().lines
+        ).process().words
+    ).count().result
 
 
 if __name__ == '__main__':
     info = ParserArgv(sys.argv[1:]).parse()
-    print(Fitter(
-        info.get("n_gram"),
-        Serializer(
-            Loader(
-                info.get("source_file")
-            ).execute()
-        ).process()
-    ).count().result)
+    print(exec_oop_code(info))

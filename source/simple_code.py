@@ -16,7 +16,7 @@ from utils.argv import ParserArgv
 from utils.profile import profile
 
 
-@profile
+@profile(repeat=1, number=1000)
 def execute(source_file, n_gram):
     if not source_file or not n_gram:
         return

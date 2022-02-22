@@ -19,7 +19,7 @@ from utils.argv import ParserArgv
 from utils.profile import profile
 
 
-@profile
+@profile(repeat=1, number=1000)
 def execute(source_file, n_gram):
     # Ler o conteúdo do arquivo.
     file = open(source_file, encoding="utf-8", mode="r")
@@ -40,7 +40,7 @@ def execute(source_file, n_gram):
 
     # Contabiliza a contagem e montar o resultado.
     result = {w: c for w, c in sorted(
-        {item: data.count(item) for item in set(data)}.items(), key=lambda c: c[1], reverse=True)}
+        {item: data.count(item) for item in set(data)}.items(), key=lambda c: (c[1], c[0]), reverse=True)}
 
     return result
 
