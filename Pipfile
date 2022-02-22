@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ipython = "*"
 
 [dev-packages]
 ipython = "*"
 pytest = "*"
 coverage = "*"
 scalene = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
