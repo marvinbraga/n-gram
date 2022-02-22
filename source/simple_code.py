@@ -12,8 +12,8 @@ de bibliotecas "prontas" ou "externas", que:
 """
 import sys
 
-from utils.argv import ParserArgv
-from utils.profile import profile
+from source.utils.argv import ParserArgv
+from source.utils.profile import profile
 
 
 @profile(repeat=1, number=1000)
