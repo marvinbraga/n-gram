@@ -7,9 +7,13 @@ Todos os direitos reservados.
 """
 import os
 
+import pytest
+
 from source.simple_code import execute
 
 
+@pytest.mark.simple_code
+@pytest.mark.calculate
 def test_n_gram_1():
     output = execute(os.path.normpath("./source/texto.txt"), "1")
     assert len(output) == 16
@@ -20,6 +24,8 @@ def test_n_gram_1():
     assert output["vai"] == 1
 
 
+@pytest.mark.simple_code
+@pytest.mark.calculate
 def test_n_gram_2():
     output = execute(os.path.normpath("./source/texto.txt"), "2")
     assert len(output) == 24
