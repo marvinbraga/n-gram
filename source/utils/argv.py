@@ -1,7 +1,7 @@
 # coding=utf-8
 
 """
-R-GRAM Challenger - Test Software Engineer.
+N-GRAM Challenger - Test Software Engineer.
 Marcus Vinicius Braga, 2022.
 Todos os direitos reservados.
 """
