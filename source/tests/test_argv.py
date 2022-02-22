@@ -5,7 +5,7 @@ N-GRAM Challenger - Test Software Engineer.
 Marcus Vinicius Braga, 2022.
 Todos os direitos reservados.
 """
-from utils.argv import ParserArgv
+from source.utils.argv import ParserArgv
 
 
 def test_argv_one_invalid_param():

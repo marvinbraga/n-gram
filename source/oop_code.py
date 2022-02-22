@@ -10,8 +10,8 @@ Refaça um dos programas anteriores, mas agora podendo usar qualquer biblioteca
 import sys
 from collections import Counter
 
-from utils.argv import ParserArgv
-from utils.profile import profile
+from source.utils.argv import ParserArgv
+from source.utils.profile import profile
 
 
 class Loader:

@@ -7,7 +7,7 @@ Todos os direitos reservados.
 """
 import os
 
-from source.simple_code import execute
+from source.performance_code import execute
 
 
 def test_n_gram_1():
