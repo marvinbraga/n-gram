@@ -7,11 +7,13 @@ Marcus Vinicius Braga, 2022.
 Refaça um dos programas anteriores, mas agora podendo usar qualquer biblioteca
 (provavelmente o que você faria em um ambiente profissional).
 """
+import os.path
 import sys
 from collections import Counter
 
 from source.utils.argv import ParserArgv
-from source.utils.profile import profile
+from utils.modules import ModuleName
+from utils.profile import profile
 
 
 class Loader:
@@ -92,4 +94,9 @@ def exec_oop_code(info_env):
 
 if __name__ == '__main__':
     info = ParserArgv(sys.argv[1:]).parse()
-    print(exec_oop_code(info))
+    if not info["source_file"] or not info["n_gram"]:
+        module = ModuleName(str(sys.modules[__name__])).get()
+        print("Utilize a linha de comando da seguinte forma:")
+        print(f"python {module} source_file={os.path.join(os.path.dirname(module), 'texto.txt')} n_gram=1")
+    else:
+        print(exec_oop_code(info))

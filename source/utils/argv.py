@@ -6,7 +6,7 @@ Marcus Vinicius Braga, 2022.
 Todos os direitos reservados.
 """
 
-from source.utils.abstract_parser import AbstractParser
+from utils.abstract_parser import AbstractParser
 
 
 class ParserArgv(AbstractParser):

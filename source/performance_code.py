@@ -16,7 +16,8 @@ código performático, isto é, que tenha pelo menos algumas das seguintes carac
 import sys
 
 from source.utils.argv import ParserArgv
-from source.utils.profile import profile
+from utils.modules import ModuleName
+from utils.profile import profile
 
 
 @profile(repeat=1, number=1000)
@@ -47,4 +48,9 @@ def execute(source_file, n_gram):
 
 if __name__ == '__main__':
     info = ParserArgv(sys.argv[1:]).parse()
-    print(execute(info.get("source_file"), info.get("n_gram")))
+    if not info["source_file"] or not info["n_gram"]:
+        module = ModuleName(str(sys.modules[__name__])).get()
+        print("Utilize a linha de comando da seguinte forma:")
+        print(f"python {module} source_file={os.path.join(os.path.dirname(module), 'texto.txt')} n_gram=1")
+    else:
+        print(execute(info.get("source_file"), info.get("n_gram")))
