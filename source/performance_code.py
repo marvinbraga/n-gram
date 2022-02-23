@@ -15,7 +15,7 @@ código performático, isto é, que tenha pelo menos algumas das seguintes carac
 """
 import sys
 
-from source.utils.argv import ParserArgv
+from utils.argv import ParserArgv
 from utils.modules import ModuleName
 from utils.profile import profile
 
