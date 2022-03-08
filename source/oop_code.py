@@ -31,11 +31,22 @@ class Loader:
 
     def execute(self):
         with open(self._source_file, encoding="utf-8", mode="r") as file:
-            try:
-                self._lines = file.readlines()
-            finally:
-                file.close()
+            self._lines = file.readlines()
         return self
+
+
+class LoaderLine:
+
+    def __init__(self, source_file):
+        self._source_file = source_file
+
+    def execute(self):
+        with open(self._source_file, encoding="utf-8", mode="r") as file:
+            while True:
+                line = file.readline()
+                if not line:
+                    break
+                yield line
 
 
 class Serializer:
@@ -92,6 +103,17 @@ def exec_oop_code(info_env):
     ).count().result
 
 
+@profile(repeat=1, number=1000)
+def exec_oop_code_line(info_env):
+    loader = LoaderLine(source_file=info_env.get("source_file"))
+    return Fitter(
+        n_gram=info_env.get("n_gram"),
+        words=Serializer(
+            lines=[line for line in loader.execute()]
+        ).process().words
+    ).count().result
+
+
 if __name__ == '__main__':
     info = ParserArgv(sys.argv[1:]).parse()
     if not info["source_file"] or not info["n_gram"]:
@@ -99,4 +121,5 @@ if __name__ == '__main__':
         print("Utilize a linha de comando da seguinte forma:")
         print(f"python {module} source_file={os.path.join(os.path.dirname(module), 'texto.txt')} n_gram=1")
     else:
-        print(exec_oop_code(info))
+        # print(exec_oop_code(info))
+        print(exec_oop_code_line(info))
