@@ -23,17 +23,17 @@ class AbstractBenchmark(metaclass=ABCMeta):
     _source_file = ""
     _ngram = ""
 
-    @profile(repeat=1, number=0)
+    @profile(repeat=1, number=1)
     def execute_simple_code(self):
         simple_code.execute(self._source_file, self._ngram)
         return self
 
-    @profile(repeat=1, number=0)
+    @profile(repeat=1, number=1)
     def execute_performance_code(self):
         performance_code.execute(self._source_file, self._ngram)
         return self
 
-    @profile(repeat=1, number=0)
+    @profile(repeat=1, number=1)
     def execute_oop_code(self):
         info = ParserArgv([f'source_file={self._source_file}', f'n_gram={self._ngram}']).parse()
         oop_code.exec_oop_code(info)
@@ -50,11 +50,11 @@ class Benchmark(AbstractBenchmark):
     def execute(self):
         resultados = dict()
         resultados['simple_code'] = min(
-            timeit.Timer(lambda: self.execute_simple_code()).repeat(repeat=1, number=0))
+            timeit.Timer(lambda: self.execute_simple_code()).repeat(repeat=1, number=1))
         resultados['performance_code'] = min(
-            timeit.Timer(lambda: self.execute_performance_code()).repeat(repeat=1, number=0))
+            timeit.Timer(lambda: self.execute_performance_code()).repeat(repeat=1, number=1))
         resultados['oop_code'] = min(
-            timeit.Timer(lambda: self.execute_oop_code()).repeat(repeat=1, number=0))
+            timeit.Timer(lambda: self.execute_oop_code()).repeat(repeat=1, number=1))
         self.melhor = sorted(resultados, key=resultados.get)[0]
         print("--------------------------------------------------------------------------------------------")
         print(f'TESTE: {self.__class__.__name__}')
