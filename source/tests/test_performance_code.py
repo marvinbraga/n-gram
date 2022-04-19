@@ -11,11 +11,13 @@ import pytest
 
 from source.performance_code import execute
 
+_SOURCE_FILE = os.path.normpath("../texto.txt")
+
 
 @pytest.mark.performance_code
 @pytest.mark.calculate
 def test_n_gram_1():
-    output = execute(os.path.normpath("./source/texto.txt"), "1")
+    output = execute(_SOURCE_FILE, "1")
     assert len(output) == 16
     assert output["cada"] == 8
     assert output["um"] == 8
@@ -27,7 +29,7 @@ def test_n_gram_1():
 @pytest.mark.performance_code
 @pytest.mark.calculate
 def test_n_gram_2():
-    output = execute(os.path.normpath("./source/texto.txt"), "2")
+    output = execute(_SOURCE_FILE, "2")
     assert len(output) == 24
     assert output["cada um"] == 8
     assert output["a casa"] == 2

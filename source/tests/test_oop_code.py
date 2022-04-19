@@ -9,13 +9,31 @@ import os.path
 
 import pytest
 
-from source.oop_code import Serializer, Loader, Fitter
+from source.oop_code import Serializer, Loader, Fitter, LoaderLine
+
+_SOURCE_FILE = os.path.normpath("../texto.txt")
+_SOURCE_FILE_3 = os.path.normpath("../texto_3.txt")
 
 
 @pytest.fixture
 def test_loader():
-    source_file = os.path.normpath("./source/texto.txt")
+    # source_file = os.path.normpath("./source/texto.txt")
+    source_file = _SOURCE_FILE
     return Loader(source_file=source_file).execute()
+
+
+@pytest.fixture
+def test_loader_line():
+    # source_file = os.path.normpath("./source/texto_3.txt")
+    source_file = _SOURCE_FILE_3
+    loader = LoaderLine(source_file=source_file)
+    return Serializer(lines=[line for line in loader.execute()]).process()
+
+
+@pytest.mark.oop_code
+@pytest.mark.initialization
+def tests_loader_line(test_loader_line):
+    assert len(test_loader_line.words) > 0
 
 
 @pytest.fixture

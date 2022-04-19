@@ -15,8 +15,8 @@ from collections import Counter
 import oop_code
 import performance_code
 import simple_code
-from utils.argv import ParserArgv
-from utils.profile import profile
+from source.utils.argv import ParserArgv
+from source.utils.profile import profile
 
 
 class AbstractBenchmark(metaclass=ABCMeta):
